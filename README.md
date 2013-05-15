@@ -49,6 +49,28 @@ App42 Client SDK sample for Window Phone application
         {
         uploadService.UploadFileForUser(imageName, friendName, e.ChosenPhoto, "IMAGE", description, this);
         }
+        
+5. Add Additional Info For Image And Friend:
+        void App42Callback.OnSuccess(object response)
+        {
+        Upload upload = (Upload)response;
+        IList<Upload.File> fileList = upload.GetFileList();
+        for (int i = 0; i < fileList.Count; i++)
+        {
+            name = fileList[i].GetName();
+            type = fileList[i].GetType();
+            url = fileList[i].GetUrl();
+            description = fileList[i].GetDescription();
+        }
+        JObject myJson = new JObject();
+        myJson.Add("ownerId", ownerFacebookId);
+        myJson.Add("ownerName", ownerName);
+        myJson.Add("userId", userFacebookId);
+        myJson.Add("userName", userName);
+        myJson.Add("imageName", imageName);
+        myJson.Add("imageUrl", imageUrl);
+        myJson.Add("description", description);
+        }
 
 
 
