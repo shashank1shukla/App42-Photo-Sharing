@@ -1,0 +1,12 @@
+﻿<Deployment xmlns="http://schemas.microsoft.com/client/2007/deployment" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" EntryPointAssembly="Knock" EntryPointType="Knock.App" RuntimeVersion="4.7.50308.0">
+  <Deployment.Parts>
+    <AssemblyPart x:Name="Knock" Source="Knock.dll" />
+    <AssemblyPart x:Name="App42_WINDOWS_API_1.1" Source="App42_WINDOWS_API_1.1.dll" />
+    <AssemblyPart x:Name="Facebook" Source="Facebook.dll" />
+    <AssemblyPart x:Name="Microsoft.Phone.Controls" Source="Microsoft.Phone.Controls.dll" />
+    <AssemblyPart x:Name="Microsoft.Phone.Controls.Toolkit" Source="Microsoft.Phone.Controls.Toolkit.dll" />
+    <AssemblyPart x:Name="Newtonsoft.Json.WindowsPhone" Source="Newtonsoft.Json.WindowsPhone.dll" />
+    <AssemblyPart x:Name="System.Windows.Interactivity" Source="System.Windows.Interactivity.dll" />
+    <AssemblyPart x:Name="WP7Contrib.View.Controls" Source="WP7Contrib.View.Controls.dll" />
+  </Deployment.Parts>
+</Deployment>
