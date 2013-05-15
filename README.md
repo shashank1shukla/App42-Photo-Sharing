@@ -3,7 +3,7 @@ App42-Photo-Sharing
 
 [![OverView](http://www.shephertz.com/images/logo/app42_cloud.png)](http://api.shephertz.com)
 
-App42 Client SDK sample for Window Phone applications
+App42 Client SDK sample for Window Phone application
 
 Check out [APP42 CLOUD API](http://api.shephertz.com/) to learn more about the product.
 
