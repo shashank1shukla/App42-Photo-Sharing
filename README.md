@@ -52,10 +52,16 @@ App42 Client SDK sample for Window Phone application
         
 5. Add Additional Info For Image And Friend:
 
+```
+        // Call When Upload File Successfully Uploaded
         void App42Callback.OnSuccess(object response)
         {
         Upload upload = (Upload)response;
         IList<Upload.File> fileList = upload.GetFileList();
+        String name;
+        String type;
+        String url;
+        String description
         for (int i = 0; i < fileList.Count; i++)
         {
             name = fileList[i].GetName();
@@ -68,12 +74,13 @@ App42 Client SDK sample for Window Phone application
         myJson.Add("ownerName", ownerName);
         myJson.Add("userId", userFacebookId);
         myJson.Add("userName", userName);
-        myJson.Add("imageName", imageName);
-        myJson.Add("imageUrl", imageUrl);
+        myJson.Add("imageName", name);
+        myJson.Add("imageUrl", url);
         myJson.Add("description", description);
+        storageService.InsertJSONDocument(storageDbName, storageCollName, myJson.ToString(), this);
         }
 
-
+```
 
 
 
