@@ -83,5 +83,44 @@ App42 Client SDK sample for Window Phone application
 
 ```
 
+2. Get Received Photos:
+
+```
+        storageService.FindDocumentByKeyValue(storageDbName, storageCollName, "userId", myFacebookId, this);
+        
+        void App42Callback.OnSuccess(object response)
+        {
+         Storage storage = (Storage)response;
+         IList<Storage.JSONDocument> JsonDocList = storage.GetJsonDocList();
+         for (int i = 0; i < JsonDocList.Count; i++)
+        {
+            JObject jsonObj = JObject.Parse(JsonDocList[i].GetJsonDoc());
+            string ownerName = (string)jsonObj["ownerName"];
+            string url = (string)jsonObj["imageUrl"];
+            string imageName = (string)jsonObj["imageName"];
+            
+        }
+        }
+```
+
+2. Get Shared Photos:
+
+```
+        storageService.FindDocumentByKeyValue(Util.storageDbName, Util.storageCollName, "ownerId", myfacebookId, this);
+        void App42Callback.OnSuccess(object response)
+        {
+        Storage storage = (Storage)response;
+        IList<Storage.JSONDocument> JsonDocList = storage.GetJsonDocList();
+        for (int i = 0; i < JsonDocList.Count; i++)
+        {
+            JObject jsonObj = JObject.Parse(JsonDocList[i].GetJsonDoc());
+            string userName = (string)jsonObj["userName"];
+            string url = (string)jsonObj["imageUrl"];
+            string imageName = (string)jsonObj["imageName"];
+           
+        }
+        }
+```
+
 
 
