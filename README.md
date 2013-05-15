@@ -51,6 +51,7 @@ App42 Client SDK sample for Window Phone application
         }
         
 5. Add Additional Info For Image And Friend:
+
         void App42Callback.OnSuccess(object response)
         {
         Upload upload = (Upload)response;
