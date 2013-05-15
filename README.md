@@ -11,4 +11,4 @@ Check out [App42 Cloud Api](http://api.shephertz.com/) to learn more about the p
 
 [Reference](https://github.com/ShashankSShephertz/App42-Photo-Sharing)
 
-[![](http://blogs.shephertz.com/wp-content/uploads/2013/05/Signup.jpg)](https://apphq.shephertz.com/register?appwarp=true)[![](http://blogs.shephertz.com/wp-content/uploads/2013/05/AlreadyRegistered.jpg)](https://apphq.shephertz.com/)
+[![](http://blogs.shephertz.com/wp-content/uploads/2013/05/Signup.jpg)](https://apphq.shephertz.com/register?hsCtaTracking=469b0bce-28f1-4587-83f3-f8250fa2b778%7C125562bc-3213-4c82-a145-ea6fa532c917)[![](http://blogs.shephertz.com/wp-content/uploads/2013/05/AlreadyRegistered.jpg)](https://apphq.shephertz.com/)
