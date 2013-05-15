@@ -31,12 +31,24 @@ App42 Client SDK sample for Window Phone application
         IList<Social.Friends> fbList = social.GetFriendList();
         for (int i = 0; i < fbList.Count; i++)
         {
-        String id = fbList[i].GetId(); ;
+        String id = fbList[i].GetId();
         String name = fbList[i].GetName();
         String picture = fbList[i].GetPicture();      
         }
         }
         
+3. Choose Photo From Gallery: 
+
+        PhotoChooserTask objPhotoChooser = new PhotoChooserTask();
+        objPhotoChooser.Show();
+        objPhotoChooser.Completed += new EventHandler<PhotoResult>(PhotoChooserTask_Completed);        
+        
+4. Upload Photo To Your Friend:
+
+        private void PhotoChooserTask_Completed(object sender, PhotoResult e)
+        {
+        uploadService.UploadFileForUser(imageName, friendName, e.ChosenPhoto, "IMAGE", description, this);
+        }
 
 
 
