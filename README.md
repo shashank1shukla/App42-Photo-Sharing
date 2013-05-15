@@ -1,7 +1,7 @@
 App42-Photo-Sharing
 ===================
 
-[![OverView](http://api.shephertz.com/images/logo.png)](http://api.shephertz.com)
+[![OverView](http://www.shephertz.com/images/logo/app42_cloud.png)](http://api.shephertz.com)
 
 App42 client sdk sample for windows applications
 
