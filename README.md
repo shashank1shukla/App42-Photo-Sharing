@@ -17,13 +17,18 @@ App42 Client SDK sample for Window Phone application
 
 1. Initilize Services
 
+```
         ServiceAPI serviceAPI = new ServiceAPI("YOUR API KEY", "YOUR SECRET KEY");
         UploadService uploadService = serviceAPI.BuildUploadService();
         StorageService storageService = serviceAPI.BuildStorageService();
         ReviewService reviewService = serviceAPI.BuildReviewService();
         SocialService socialService = serviceAPI.BuildSocialService();
 
+```
+
 2. Get Facebook Friends:
+
+````
 
         socialService.GetFacebookFriendsOAuth(fbAccessToken,this);
         void App42Callback.OnSuccess(object response)
@@ -38,19 +43,27 @@ App42 Client SDK sample for Window Phone application
         }
         }
         
+```        
+        
 3. Choose Photo From Gallery: 
 
+
+```
         PhotoChooserTask objPhotoChooser = new PhotoChooserTask();
         objPhotoChooser.Show();
-        objPhotoChooser.Completed += new EventHandler<PhotoResult>(PhotoChooserTask_Completed);        
+        objPhotoChooser.Completed += new EventHandler<PhotoResult>(PhotoChooserTask_Completed);   
         
+  
+```  
 4. Upload Photo To Your Friend:
 
+```     
         private void PhotoChooserTask_Completed(object sender, PhotoResult e)
         {
         uploadService.UploadFileForUser(imageName, friendName, e.ChosenPhoto, "IMAGE", description, this);
         }
-        
+```  
+  
 5. Add Additional Info For Image And Friend:
 
 ```
@@ -83,7 +96,7 @@ App42 Client SDK sample for Window Phone application
 
 ```
 
-2. Get Received Photos:
+6. Get Received Photos:
 
 ```
         storageService.FindDocumentByKeyValue(storageDbName, storageCollName, "userId", myFacebookId, this);
@@ -103,7 +116,7 @@ App42 Client SDK sample for Window Phone application
         }
 ```
 
-2. Get Shared Photos:
+7. Get Shared Photos:
 
 ```
         storageService.FindDocumentByKeyValue(Util.storageDbName, Util.storageCollName, "ownerId", myfacebookId, this);
@@ -121,6 +134,47 @@ App42 Client SDK sample for Window Phone application
         }
         }
 ```
+
+8. Add Comments To Photo:
+
+```
+        reviewService.AddComment(myFacebookName,fileName,message,this);
+```
+
+9. Get Comments To Photo:
+
+```
+        reviewService.GetCommentsByItem(fileName,this);
+        
+        // callback when comments will be receive or add.
+        void App42Callback.OnSuccess(object response)
+        {
+            // callback when getAllComments loded
+            if (response is IList<Review>)
+            {
+                IList<Review> reviewList = (IList<Review>)response;
+                for (int i = 0; i < reviewList.Count; i++)
+                {
+                    String userId = reviewList[i].GetUserId();
+                    String message = reviewList[i].GetComment();
+                    DateTime time = reviewList[i].GetCreatedOn();
+                   
+                }
+            }
+            
+            // callback when comment add
+            else if (response is Review)
+            {
+                Review review = (Review)response;
+                String message = review.GetComment();
+                DateTime time = review.GetCreatedOn();
+                
+            }
+
+        }
+```
+
+
 
 
 
