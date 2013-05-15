@@ -22,6 +22,22 @@ App42 Client SDK sample for Window Phone application
         ReviewService reviewService = serviceAPI.BuildReviewService();
         SocialService socialService = serviceAPI.BuildSocialService();
 
+2. Get Facebook Friends:
+
+        socialService.GetFacebookFriendsOAuth(fbAccessToken,this);
+        void App42Callback.OnSuccess(object response)
+        {
+        Social social = (Social)response;
+        IList<Social.Friends> fbList = social.GetFriendList();
+        for (int i = 0; i < fbList.Count; i++)
+        {
+        String id = fbList[i].GetId(); ;
+        String name = fbList[i].GetName();
+        String picture = fbList[i].GetPicture();      
+        }
+        }
+        
+
 
 
 
