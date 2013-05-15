@@ -13,168 +13,150 @@ App42 Client SDK sample for Window Phone application
 5. You can also modify your appId variable in MainPage.cs to pass your own facebook app credentials.
 6. Build and Run 
 
-# Design Details:
+#Design Details:
 
-1. Initilize Services
-
-```
-        ServiceAPI serviceAPI = new ServiceAPI("YOUR API KEY", "YOUR SECRET KEY");
-        UploadService uploadService = serviceAPI.BuildUploadService();
-        StorageService storageService = serviceAPI.BuildStorageService();
-        ReviewService reviewService = serviceAPI.BuildReviewService();
-        SocialService socialService = serviceAPI.BuildSocialService();
+__Initilize Services :__
 
 ```
+ServiceAPI serviceAPI = new ServiceAPI("YOUR API KEY", "YOUR SECRET KEY");
+UploadService uploadService = serviceAPI.BuildUploadService();
+StorageService storageService = serviceAPI.BuildStorageService();
+ReviewService reviewService = serviceAPI.BuildReviewService();
+SocialService socialService = serviceAPI.BuildSocialService();
+```
 
-2. Get Facebook Friends:
+__Get Facebook Friends :__
 
-````
-
-        socialService.GetFacebookFriendsOAuth(fbAccessToken,this);
-        void App42Callback.OnSuccess(object response)
-        {
+```
+socialService.GetFacebookFriendsOAuth(fbAccessToken,this);
+void App42Callback.OnSuccess(object response)
+{
         Social social = (Social)response;
-        IList<Social.Friends> fbList = social.GetFriendList();
-        for (int i = 0; i < fbList.Count; i++)
-        {
-        String id = fbList[i].GetId();
-        String name = fbList[i].GetName();
-        String picture = fbList[i].GetPicture();      
-        }
-        }
-        
+	IList<Social.Friends> fbList = social.GetFriendList();
+	for (int i = 0; i < fbList.Count; i++)
+	{
+		String id = fbList[i].GetId();
+		String name = fbList[i].GetName();
+		String picture = fbList[i].GetPicture();      
+	}
+}    
 ```        
         
-3. Choose Photo From Gallery: 
-
+__Choose Photo From Gallery :__ 
 
 ```
-        PhotoChooserTask objPhotoChooser = new PhotoChooserTask();
-        objPhotoChooser.Show();
-        objPhotoChooser.Completed += new EventHandler<PhotoResult>(PhotoChooserTask_Completed);   
-        
-  
+PhotoChooserTask objPhotoChooser = new PhotoChooserTask();
+objPhotoChooser.Show();
+objPhotoChooser.Completed += new EventHandler<PhotoResult>(PhotoChooserTask_Completed);   
 ```  
-4. Upload Photo To Your Friend:
+
+__Upload Photo To Your Friend :__
 
 ```     
-        private void PhotoChooserTask_Completed(object sender, PhotoResult e)
-        {
-        uploadService.UploadFileForUser(imageName, friendName, e.ChosenPhoto, "IMAGE", description, this);
-        }
+private void PhotoChooserTask_Completed(object sender, PhotoResult e)
+{
+	uploadService.UploadFileForUser(imageName, friendName, e.ChosenPhoto, "IMAGE", description, this);
+}
 ```  
   
-5. Add Additional Info For Image And Friend:
+__Add Additional Info For Image And Friend :__
 
 ```
-        // Call When Upload File Successfully Uploaded
-        void App42Callback.OnSuccess(object response)
-        {
-        Upload upload = (Upload)response;
-        IList<Upload.File> fileList = upload.GetFileList();
-        String name;
-        String type;
-        String url;
-        String description
-        for (int i = 0; i < fileList.Count; i++)
-        {
-            name = fileList[i].GetName();
-            type = fileList[i].GetType();
-            url = fileList[i].GetUrl();
-            description = fileList[i].GetDescription();
-        }
-        JObject myJson = new JObject();
-        myJson.Add("ownerId", ownerFacebookId);
-        myJson.Add("ownerName", ownerName);
-        myJson.Add("userId", userFacebookId);
-        myJson.Add("userName", userName);
-        myJson.Add("imageName", name);
-        myJson.Add("imageUrl", url);
-        myJson.Add("description", description);
-        storageService.InsertJSONDocument(storageDbName, storageCollName, myJson.ToString(), this);
-        }
-
+// Call When Upload File Successfully Uploaded
+void App42Callback.OnSuccess(object response)
+{
+	Upload upload = (Upload)response;
+	IList<Upload.File> fileList = upload.GetFileList();
+	String name;
+	String type;
+	String url;
+	String description
+	for (int i = 0; i < fileList.Count; i++)
+	{
+		name = fileList[i].GetName();
+		type = fileList[i].GetType();
+		url = fileList[i].GetUrl();
+		description = fileList[i].GetDescription();
+	}
+	JObject myJson = new JObject();
+	myJson.Add("ownerId", ownerFacebookId);
+	myJson.Add("ownerName", ownerName);
+	myJson.Add("userId", userFacebookId);
+	myJson.Add("userName", userName);
+	myJson.Add("imageName", name);
+	myJson.Add("imageUrl", url);
+	myJson.Add("description", description);
+	storageService.InsertJSONDocument(storageDbName, storageCollName, myJson.ToString(), this);
+}
 ```
 
-6. Get Received Photos:
+__Get Received Photos :__
 
 ```
-        storageService.FindDocumentByKeyValue(storageDbName, storageCollName, "userId", myFacebookId, this);
-        
-        void App42Callback.OnSuccess(object response)
-        {
-         Storage storage = (Storage)response;
-         IList<Storage.JSONDocument> JsonDocList = storage.GetJsonDocList();
-         for (int i = 0; i < JsonDocList.Count; i++)
-        {
-            JObject jsonObj = JObject.Parse(JsonDocList[i].GetJsonDoc());
-            string ownerName = (string)jsonObj["ownerName"];
-            string url = (string)jsonObj["imageUrl"];
-            string imageName = (string)jsonObj["imageName"];
-            
-        }
-        }
+storageService.FindDocumentByKeyValue(storageDbName, storageCollName, "userId", myFacebookId, this);
+void App42Callback.OnSuccess(object response)
+{
+	Storage storage = (Storage)response;
+	IList<Storage.JSONDocument> JsonDocList = storage.GetJsonDocList();
+	for (int i = 0; i < JsonDocList.Count; i++)
+	{
+		JObject jsonObj = JObject.Parse(JsonDocList[i].GetJsonDoc());
+		string ownerName = (string)jsonObj["ownerName"];
+		string url = (string)jsonObj["imageUrl"];
+		string imageName = (string)jsonObj["imageName"];
+	}
+}
 ```
 
-7. Get Shared Photos:
+__Get Shared Photos :__
 
 ```
-        storageService.FindDocumentByKeyValue(Util.storageDbName, Util.storageCollName, "ownerId", myfacebookId, this);
-        void App42Callback.OnSuccess(object response)
-        {
-        Storage storage = (Storage)response;
-        IList<Storage.JSONDocument> JsonDocList = storage.GetJsonDocList();
-        for (int i = 0; i < JsonDocList.Count; i++)
-        {
-            JObject jsonObj = JObject.Parse(JsonDocList[i].GetJsonDoc());
-            string userName = (string)jsonObj["userName"];
-            string url = (string)jsonObj["imageUrl"];
-            string imageName = (string)jsonObj["imageName"];
-           
-        }
-        }
+storageService.FindDocumentByKeyValue(Util.storageDbName, Util.storageCollName, "ownerId", myfacebookId, this);
+void App42Callback.OnSuccess(object response)
+{
+	Storage storage = (Storage)response;
+	IList<Storage.JSONDocument> JsonDocList = storage.GetJsonDocList();
+	for (int i = 0; i < JsonDocList.Count; i++)
+	{
+		JObject jsonObj = JObject.Parse(JsonDocList[i].GetJsonDoc());
+		string userName = (string)jsonObj["userName"];
+		string url = (string)jsonObj["imageUrl"];
+		string imageName = (string)jsonObj["imageName"];
+	}
+}
 ```
 
-8. Add Comments To Photo:
+__Add Comments To Photo :__
 
 ```
-        reviewService.AddComment(myFacebookName,fileName,message,this);
+reviewService.AddComment(myFacebookName,fileName,message,this);
 ```
 
-9. Get Comments To Photo:
+__Get Comments To Photo :__
 
 ```
-        reviewService.GetCommentsByItem(fileName,this);
-        
-        // callback when comments will be receive or add.
-        void App42Callback.OnSuccess(object response)
-        {
-            // callback when getAllComments loded
-            if (response is IList<Review>)
-            {
-                IList<Review> reviewList = (IList<Review>)response;
-                for (int i = 0; i < reviewList.Count; i++)
-                {
-                    String userId = reviewList[i].GetUserId();
-                    String message = reviewList[i].GetComment();
-                    DateTime time = reviewList[i].GetCreatedOn();
-                   
-                }
-            }
-            
-            // callback when comment add
-            else if (response is Review)
-            {
-                Review review = (Review)response;
-                String message = review.GetComment();
-                DateTime time = review.GetCreatedOn();
-                
-            }
-
-        }
+reviewService.GetCommentsByItem(fileName,this);
+// callback when comments will be receive or add.
+void App42Callback.OnSuccess(object response)
+{
+	// callback when getAllComments loded
+	if (response is IList<Review>)
+	{
+		IList<Review> reviewList = (IList<Review>)response;
+		for (int i = 0; i < reviewList.Count; i++)
+		{
+			String userId = reviewList[i].GetUserId();
+			String message = reviewList[i].GetComment();
+			DateTime time = reviewList[i].GetCreatedOn();
+		}
+	}
+	// callback when comment add
+	else if (response is Review)
+	{
+		Review review = (Review)response;
+		String message = review.GetComment();
+		DateTime time = review.GetCreatedOn();
+	}
+}
 ```
-
-
-
-
 
