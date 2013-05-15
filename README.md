@@ -9,6 +9,7 @@ App42 Client SDK sample for Window Phone application
 2. Create an app once you are on Quickstart page after registeration.
 3. Download the project from this repo and open it in Microsoft Visual Studio.
 4. Open Util.cs in app and give the value of app42APIkey app42SecretKey in ServiceAPI.
+5. Change storageDbName and storageCollName variable in Util.cs to your storage database and storage collection.
 5. You can also modify your appId variable in MainPage.cs to pass your own facebook app credentials.
 6. Build and Run 
 
