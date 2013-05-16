@@ -24,6 +24,15 @@ facebook wall or your friend facebook wall.
 
 __Initilize Services :__
 
+First you initilize the ServiceAPI with your APIKey and SecretKey from Running Sample step #1 and #2. And before this you can build UploadService from ServiceAPI object.
+By using UploadService you can upload images and file to App42CDN, fetch from it.
+Three other Services are use for this app. 
+
+StorageService(NoSQL Storage) : database creation for your app on the cloud, Store app data in JSON objects at App42 Cloud
+ReviewService : AddComment,Review and Rating on your app item.
+
+SocialService : Social Connect to your App.
+
 ```
 ServiceAPI serviceAPI = new ServiceAPI("YOUR API KEY", "YOUR SECRET KEY");
 UploadService uploadService = serviceAPI.BuildUploadService();
@@ -33,6 +42,11 @@ SocialService socialService = serviceAPI.BuildSocialService();
 ```
 
 __Get Facebook Friends :__
+
+After initilize you get your facebook friends from social object by using GetFacebookFriendsOAuth. This method require facebook access token
+and your callback class that implements App42Callback.
+
+This methods return callback in App42Callback.OnSuccess.
 
 ```
 socialService.GetFacebookFriendsOAuth(fbAccessToken,this);
