@@ -76,7 +76,7 @@ objPhotoChooser.Completed += new EventHandler<PhotoResult>(PhotoChooserTask_Comp
 
 __Upload Photo To Your Friend :__
 
-Upload Photo with user you must mention ptoto name, user name , photo stream, ptoto type and ptoto description.
+Upload Photo with user you must mention ptoto name, user name , photo stream, ptoto type and photo description.
 
 ```     
 private void PhotoChooserTask_Completed(object sender, PhotoResult e)
@@ -89,7 +89,7 @@ __Add Additional Info For Image And Friend :__
 
 Callback from server when photo wiill be successfully upload. In this app we are use storageService to save upload object to NOSQL
 stoarge, to save additional information regarding photo like whose is the owner of photo with his facebook unique id, image url from upload object,
-designated user of photo and his facebook unique id ect.
+designated user of photo and his facebook unique id etc.
 
 ```
 // Call When Upload File Successfully Uploaded
