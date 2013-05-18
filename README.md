@@ -125,6 +125,8 @@ void App42Callback.OnSuccess(object response)
 
 __Get Received Photos :__
 
+In this section we use storng data model of storageService(NOSQL). and get all received photos for user.
+
 ```
 storageService.FindDocumentByKeyValue(storageDbName, storageCollName, "userId", myFacebookId, this);
 void App42Callback.OnSuccess(object response)
@@ -142,6 +144,8 @@ void App42Callback.OnSuccess(object response)
 ```
 
 __Get Shared Photos :__
+
+Following storage query get relational information abuout photo. this app using this query for identify all shared photos. 
 
 ```
 storageService.FindDocumentByKeyValue(Util.storageDbName, Util.storageCollName, "ownerId", myfacebookId, this);
@@ -161,12 +165,15 @@ void App42Callback.OnSuccess(object response)
 
 __Add Comments To Photo :__
 
-According to this app make sure your image name should be unique. Besause if you need to comment any photo there is a item id in this API 
+According to this app make sure your image name should be unique. Besause if you need to comment any photo there is a item id in this API and all comments 
+added regarding this itemId.
 ```
 reviewService.AddComment(myFacebookName,fileName,message,this);
 ```
 
 __Get Comments To Photo :__
+
+And finally will get all coments on photo by using GetCommentsByItem of reviewService.
 
 ```
 reviewService.GetCommentsByItem(fileName,this);
