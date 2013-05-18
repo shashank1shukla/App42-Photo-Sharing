@@ -44,12 +44,12 @@ SocialService socialService = serviceAPI.BuildSocialService();
 __Get Facebook Friends :__
 
 After initilize you get your facebook friends from social object by using GetFacebookFriendsOAuth. This method require facebook access token
-and your callback class that implements App42Callback.
+and your callback class reference that implements App42Callback interface.
 
 This methods return callback in App42Callback.OnSuccess.
 
 ```
-socialService.GetFacebookFriendsOAuth(fbAccessToken,this);
+socialService.GetFacebookFriendsOAuth(fbAccessToken,yourclass);
 void App42Callback.OnSuccess(object response)
 {
         Social social = (Social)response;
@@ -65,6 +65,9 @@ void App42Callback.OnSuccess(object response)
         
 __Choose Photo From Gallery :__ 
 
+When you get your friend list from facebook, you can share photos with your friend by using App42 API. Windows Phone provides PhotoChooserTask to select a Photo
+from phone gallery and returns photo stream in PhotoResult object when PhotoChooserTask is Completed.
+
 ```
 PhotoChooserTask objPhotoChooser = new PhotoChooserTask();
 objPhotoChooser.Show();
@@ -73,14 +76,20 @@ objPhotoChooser.Completed += new EventHandler<PhotoResult>(PhotoChooserTask_Comp
 
 __Upload Photo To Your Friend :__
 
+Upload Photo with user you must mention ptoto name, user name , photo stream, ptoto type and ptoto description.
+
 ```     
 private void PhotoChooserTask_Completed(object sender, PhotoResult e)
 {
-	uploadService.UploadFileForUser(imageName, friendName, e.ChosenPhoto, "IMAGE", description, this);
+	uploadService.UploadFileForUser(imageName, friendName, e.ChosenPhoto, "IMAGE", description, your callback class);
 }
 ```  
   
 __Add Additional Info For Image And Friend :__
+
+Callback from server when photo wiill be successfully upload. In this app we are use storageService to save upload object to NOSQL
+stoarge, to save additional information regarding photo like whose is the owner of photo with his facebook unique id, image url from upload object,
+designated user of photo and his facebook unique id ect.
 
 ```
 // Call When Upload File Successfully Uploaded
@@ -99,6 +108,9 @@ void App42Callback.OnSuccess(object response)
 		url = fileList[i].GetUrl();
 		description = fileList[i].GetDescription();
 	}
+	
+	// save upload object to NOSQL.
+	
 	JObject myJson = new JObject();
 	myJson.Add("ownerId", ownerFacebookId);
 	myJson.Add("ownerName", ownerName);
@@ -149,6 +161,7 @@ void App42Callback.OnSuccess(object response)
 
 __Add Comments To Photo :__
 
+According to this app make sure your image name should be unique. Besause if you need to comment any photo there is a item id in this API 
 ```
 reviewService.AddComment(myFacebookName,fileName,message,this);
 ```
