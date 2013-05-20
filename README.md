@@ -5,9 +5,7 @@ App42 Client SDK sample for Window Phone application
 
 # About App:
 
-App42-Photo-Sharing app is based on manual photo sharing for Windows Phone via [App42CloudAPI] (http://api.shephertz.com/apis). Idea behind this to share photo with your friend
-and put a comment in to it. This app has all friends from facebook, select a friend from list and share. This app nothing to share on your 
-facebook wall or your friend facebook wall.  
+This sample demonstrate the idea of one-to-one photo sharing between two people and posting comments on the shared photograph by both of them. One can pick the friend from his facebook friend list aand can share his pic. It usea [App42 Cloud API] (http://api.shephertz.com) for backend support and uses User, Social, File storage APIs to implement this. 
 
 
 # Runnnig Sample:
