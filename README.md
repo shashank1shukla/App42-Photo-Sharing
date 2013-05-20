@@ -24,13 +24,6 @@ __Initialize Services :__
 
 Initialize  ServiceAPI instance with your APIKey and SecretKey recieved in step #2 above. Once it is initialized, you can build target service object by calling buildXXXXXService on ServiceAPI instance. Below is the snippet for the same.
 
-UploadService you can upload images and file to App42CDN, fetch from it.
-Three other Services are use for this app. 
-
-StorageService(NoSQL Storage) : database creation for your app on the cloud, Store app data in JSON objects at App42 Cloud
-ReviewService : AddComment,Review and Rating on your app item.
-
-SocialService : Social Connect to your App.
 
 ```
 ServiceAPI serviceAPI = new ServiceAPI("YOUR API KEY", "YOUR SECRET KEY");
@@ -42,8 +35,8 @@ SocialService socialService = serviceAPI.BuildSocialService();
 
 __Get Facebook Friends :__
 
-After initilize you get your facebook friends from social object by using GetFacebookFriendsOAuth. This method require facebook access token
-and your callback class reference that implements App42Callback interface.
+Call GetFacebookFriendsOAuth method on social service once you have build it as shown above. This method require facebook access token
+and your callback object reference that implements App42Callback interface.
 
 This methods return callback in App42Callback.OnSuccess.
 
@@ -75,7 +68,7 @@ objPhotoChooser.Completed += new EventHandler<PhotoResult>(PhotoChooserTask_Comp
 
 __Upload Photo To Your Friend :__
 
-Upload Photo with user you must mention ptoto name, user name , photo stream, ptoto type and photo description.
+Upload Photo with user you must mention photo name, user name , photo stream, ptoto type and photo description.
 
 ```     
 private void PhotoChooserTask_Completed(object sender, PhotoResult e)
@@ -86,9 +79,7 @@ private void PhotoChooserTask_Completed(object sender, PhotoResult e)
   
 __Add Additional Info For Image And Friend :__
 
-Callback from server when photo wiill be successfully upload. In this app we are use storageService to save upload object to NOSQL
-stoarge, to save additional information regarding photo like whose is the owner of photo with his facebook unique id, image url from upload object,
-designated user of photo and his facebook unique id etc.
+Callback from server when photo will be successfully upload. In this app we have used Storage Service to save additional information as JSON object using Storage Service.
 
 ```
 // Call When Upload File Successfully Uploaded
@@ -108,7 +99,7 @@ void App42Callback.OnSuccess(object response)
 		description = fileList[i].GetDescription();
 	}
 	
-	// save upload object to NOSQL.
+	// save upload object to NoSQL.
 	
 	JObject myJson = new JObject();
 	myJson.Add("ownerId", ownerFacebookId);
@@ -118,13 +109,14 @@ void App42Callback.OnSuccess(object response)
 	myJson.Add("imageName", name);
 	myJson.Add("imageUrl", url);
 	myJson.Add("description", description);
+	//This will save all additional information in given dbName/collection
 	storageService.InsertJSONDocument(storageDbName, storageCollName, myJson.ToString(), this);
 }
 ```
 
 __Get Received Photos :__
 
-In this section we use storng data model of storageService(NOSQL). and get all received photos for user.
+Now call storage service to fetch these information which were saved in above step.
 
 ```
 storageService.FindDocumentByKeyValue(storageDbName, storageCollName, "userId", myFacebookId, this);
@@ -144,10 +136,11 @@ void App42Callback.OnSuccess(object response)
 
 __Get Shared Photos :__
 
-Following storage query get relational information abuout photo. this app using this query for identify all shared photos. 
+Following storage query get relational information abuout photo. Here key has been passed as ownerId to identify sharded images.
 
 ```
-storageService.FindDocumentByKeyValue(Util.storageDbName, Util.storageCollName, "ownerId", myfacebookId, this);
+String keyName = "ownerId";
+storageService.FindDocumentByKeyValue(Util.storageDbName, Util.storageCollName, keyName, myfacebookId, this);
 void App42Callback.OnSuccess(object response)
 {
 	Storage storage = (Storage)response;
@@ -164,8 +157,7 @@ void App42Callback.OnSuccess(object response)
 
 __Add Comments To Photo :__
 
-According to this app make sure your image name should be unique. Besause if you need to comment any photo there is a item id in this API and all comments 
-added regarding this itemId.
+AddComment method of review service has been used to put comments on photo.
 ```
 reviewService.AddComment(myFacebookName,fileName,message,this);
 ```
