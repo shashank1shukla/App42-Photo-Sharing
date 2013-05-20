@@ -22,8 +22,9 @@ This sample demonstrate the idea of one-to-one photo sharing between two people 
 
 __Initialize Services :__
 
-First you initialize the ServiceAPI with your APIKey and SecretKey from Running Sample step #1 and #2. And before this you can build UploadService from ServiceAPI object.
-By using UploadService you can upload images and file to App42CDN, fetch from it.
+Initialize  ServiceAPI instance with your APIKey and SecretKey recieved in step #2 above. Once it is initialized, you can build target service object by calling buildXXXXXService on ServiceAPI instance. Below is the snippet for the same.
+
+UploadService you can upload images and file to App42CDN, fetch from it.
 Three other Services are use for this app. 
 
 StorageService(NoSQL Storage) : database creation for your app on the cloud, Store app data in JSON objects at App42 Cloud
