@@ -5,7 +5,7 @@ App42 Client SDK sample for Window Phone application
 
 # About App:
 
-This sample demonstrate the idea of one-to-one photo sharing between two people and posting comments on the shared photograph by both of them. One can pick the friend from his facebook friend list and can share his pic. It uses App42 Cloud API for back-end support and uses Storage, Social, File storage APIs to implement this.
+This sample demonstrate the idea of one-to-one photo sharing between two people and posting comments on the shared photograph by both of them. One can pick the friend from his facebook friend list and can share his pic. It uses App42 Cloud API for back-end support and uses Storage, Social and File storage APIs to implement this.
 
 
 # Runnnig Sample:
