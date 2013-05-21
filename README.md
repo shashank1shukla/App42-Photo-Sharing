@@ -136,7 +136,7 @@ void App42Callback.OnSuccess(object response)
 
 __Get Shared Photos :__
 
-Following storage query get relational information abuout photo. Here key has been passed as ownerId to identify sharded images.
+Following storage query get relational information about photo. Here key has been passed as ownerId to identify shared images.
 
 ```
 String keyName = "ownerId";
@@ -164,7 +164,7 @@ reviewService.AddComment(myFacebookName,fileName,message,this);
 
 __Get Comments To Photo :__
 
-And finally will get all coments on photo by using GetCommentsByItem of reviewService.
+And finally will get all coments on photo by using GetCommentsByItem of review service.
 
 ```
 reviewService.GetCommentsByItem(fileName,this);
