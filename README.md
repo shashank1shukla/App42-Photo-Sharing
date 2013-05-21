@@ -11,7 +11,7 @@ This sample demonstrate the idea of one-to-one photo sharing between two people 
 # Running Sample:
 
 1. <a href="https://apphq.shephertz.com/register" target="blank">Register</a> with App42 platform
-2. Create an app once you are on Quickstart page after registeration.
+2. Create an app once you are on Quickstart page after registration.
 3. Download the project from this repo and open it in Microsoft Visual Studio.
 4. Open Util.cs in app and give the value of APIKey and SECRETKey in ServiceAPI.
 5. Change storageDbName and storageCollName variable in Util.cs to your storage database and storage collection.
