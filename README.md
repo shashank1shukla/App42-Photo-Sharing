@@ -164,7 +164,7 @@ reviewService.AddComment(myFacebookName,fileName,message,this);
 
 __Get Comments To Photo :__
 
-And finally will get all coments on photo by using GetCommentsByItem of review service.
+And finally will get all comments on photo by using GetCommentsByItem of review service.
 
 ```
 reviewService.GetCommentsByItem(fileName,this);
