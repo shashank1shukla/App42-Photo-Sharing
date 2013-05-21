@@ -46,10 +46,10 @@ namespace Knock
         {
             PhotoChooserTask objPhotoChooser = new PhotoChooserTask();
             objPhotoChooser.Show();
-            objPhotoChooser.Completed += new EventHandler<PhotoResult>(photoChooserTask_Completed);
+            objPhotoChooser.Completed += new EventHandler<PhotoResult>(PhotoChooserTask_Completed);
         }
 
-        private void photoChooserTask_Completed(object sender, PhotoResult e)
+        private void PhotoChooserTask_Completed(object sender, PhotoResult e)
         {
             // Share image with your friend
             UploadImageOnApp42CDN(e);
@@ -66,13 +66,13 @@ namespace Knock
         {
             String dt = DateTime.Now.ToString("yyyyMMddHHmmssfff");
             String imageName = uId + dt + ".png";
-            Util.uploadObj.UploadFileForUser(imageName, uId, imageIO.ChosenPhoto, "IMAGE", "CLICK", this);
+            Util.uploadService.UploadFileForUser(imageName, uId, imageIO.ChosenPhoto, "IMAGE", "CLICK", this);
         }
 
 
         private void AddMetaInfoWithApp42(JObject imageIfo) 
         {
-            Util.storageObj.InsertJSONDocument(Util.storageDbName, Util.storageCollName, imageIfo.ToString(), this);
+            Util.storageService.InsertJSONDocument(Util.storageDbName, Util.storageCollName, imageIfo.ToString(), this);
         }
 
         // App42 Callback 

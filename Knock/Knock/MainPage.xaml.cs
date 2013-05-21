@@ -23,16 +23,12 @@ namespace Knock
 {
     public partial class MainPage : PhoneApplicationPage, App42Callback
     {
-        /// <summary>
-        ///  Facebook authentication .
-        ///  Connect to local database.
-        ///  To initialize with App42 in Util.cs
-        ///  Get facebook friends from App42 Social API.
-        /// </summary>
-        
-        private string _accessToken;
+        private String _accessToken;
         private WebBrowser _webBrowser;
-        public const string strConnectionString = @"isostore:/FbDB.sdf";
+        public const String strConnectionString = @"isostore:/FbDB.sdf";
+        String appId = "Your facebook app id";
+        private const String ExtendedPermissions = "read_stream,publish_stream,offline_access,publish_actions";
+        private readonly FacebookClient _fb = new FacebookClient();
        
         public  ProgressIndicator indicator = new ProgressIndicator
 
@@ -62,26 +58,12 @@ namespace Knock
                 IQueryable<Db> fbQuery = from db in fbdb.user select db;
                 Db ac = fbQuery.FirstOrDefault();
                 if(ac == null){
-                    string appId = "YOUR FACEBOOK APP ID";
-                    string[] extendedPermissions = new[] { "publish_stream"};
 
-                    var oauth = new FacebookOAuthClient { AppId = appId };
-                    var parameters = new Dictionary<string, object>
-                            {
-                               { "response_type", "token" },
-                                { "display", "touch" }
-                            };
-                    if (extendedPermissions != null && extendedPermissions.Length > 0)
-                    {
-                        var scope = new StringBuilder();
-                        scope.Append(string.Join(",", extendedPermissions));
-                        parameters["scope"] = scope.ToString();
-                    }
-                    var loginUrl = oauth.GetLoginUrl(parameters);
+                    var loginUrl = GetFacebookLoginUrl(appId, ExtendedPermissions);
                     //Add webBrowser to the contentPanel
                     _webBrowser.Navigate(loginUrl);
                     ContentPanel.Children.Add(_webBrowser);
-                    _webBrowser.Navigated += webBrowser_Navigated;
+                    _webBrowser.Navigated += WebBrowser_Navigated;
                     //Open the facebook login page into the browser
            
             }
@@ -91,54 +73,57 @@ namespace Knock
         /// <summary>
         /// Get access token from facebook and save to local database.
         /// </summary>
-        void webBrowser_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
+        void WebBrowser_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
         {
-            FacebookOAuthResult result;
-            //Try because there might be cases when user input wrong password
-            if (FacebookOAuthResult.TryParse(e.Uri.AbsoluteUri, out result))
+            FacebookOAuthResult oauthResult;
+            if (!_fb.TryParseOAuthCallbackUrl(e.Uri, out oauthResult))
             {
-                if (result.IsSuccess)
-                {
-                    _accessToken = result.AccessToken;
-                    //AccessToken is used when you want to use API as a user
-                    //This example is not using it at all just showing it in a messagebox
-
-                    //Adding data to the local database
-                    using (DbStorage fbdb = new DbStorage(strConnectionString))
-                    {
-                        IQueryable<Db> fbQuery = from db in fbdb.user select db;
-                        Db ac = fbQuery.FirstOrDefault();
-                        if (ac == null)
-                        {
-                            Db newUser = new Db
-                            {
-                                AccessToken = _accessToken,
-                            };
-
-                            fbdb.user.InsertOnSubmit(newUser);
-                            fbdb.SubmitChanges();
-                         }
-                        
-                    }
-                    //Hide the browser controller
-                    _webBrowser.Visibility = System.Windows.Visibility.Collapsed;
-                    ContentPanel.Children.Remove(_webBrowser);
-                    
-                    SystemTray.SetProgressIndicator(this, indicator);
-                    Util myProfile = new Util(_accessToken);
-                    myProfile.myProfile();
-
-                    // load friend list from App42
-                    GetFacebookFriendsFromSocial(_accessToken);
-                   
-                }
-                else
-                {
-                    var errorDescription = result.ErrorDescription;
-                    var errorReason = result.ErrorReason;
-                    MessageBox.Show(errorReason + " " + errorDescription);
-                }
+                MessageBox.Show("tt");
+                return;
             }
+
+            if (oauthResult.IsSuccess)
+            {
+                var accessToken1 = oauthResult.AccessToken;
+                MessageBox.Show(accessToken1);
+                _accessToken = oauthResult.AccessToken;
+                //AccessToken is used when you want to use API as a user
+                //This example is not using it at all just showing it in a messagebox
+
+                //Adding data to the local database
+                using (DbStorage fbdb = new DbStorage(strConnectionString))
+                {
+                    IQueryable<Db> fbQuery = from db in fbdb.user select db;
+                    Db ac = fbQuery.FirstOrDefault();
+                    if (ac == null)
+                    {
+                        Db newUser = new Db
+                        {
+                            AccessToken = _accessToken,
+                        };
+
+                        fbdb.user.InsertOnSubmit(newUser);
+                        fbdb.SubmitChanges();
+                    }
+
+                }
+                //Hide the browser controller
+                _webBrowser.Visibility = System.Windows.Visibility.Collapsed;
+                ContentPanel.Children.Remove(_webBrowser);
+
+                SystemTray.SetProgressIndicator(this, indicator);
+                Util myProfile = new Util(_accessToken);
+                myProfile.MyProfile();
+
+                // load friend list from App42
+                GetFacebookFriendsFromSocial(_accessToken);
+            }
+            else
+            {
+                // user cancelled
+                MessageBox.Show(oauthResult.ErrorDescription);
+            }
+            
         }
 
         // select friend from friend list..
@@ -165,21 +150,35 @@ namespace Knock
                     button1.Visibility = Visibility.Visible;
                     _webBrowser = new WebBrowser();
                     MainPage_Loaded();
-                   // this.Loaded += new RoutedEventHandler(MainPage_Loaded);
+                  
                 }
                 else
                 {
                     using (DbStorage fbdb = new DbStorage(strConnectionString))
                     {
+                        
                         IQueryable<Db> fbQuery = from db in fbdb.user select db;
                         Db ac = fbQuery.FirstOrDefault();
-                        image1.Visibility = Visibility.Collapsed;
-                        LoginText.Visibility = Visibility.Collapsed;
-                        textBlock1.Visibility = Visibility.Visible;
-                        button1.Visibility = Visibility.Visible;
-                        SystemTray.SetProgressIndicator(this, indicator);
-                        // load friend list from App42
-                        GetFacebookFriendsFromSocial(ac.AccessToken.ToString());
+                        if (ac == null)
+                        {
+                            image1.Visibility = Visibility.Collapsed;
+                            LoginText.Visibility = Visibility.Collapsed;
+                            textBlock1.Visibility = Visibility.Visible;
+                            button1.Visibility = Visibility.Visible;
+                            _webBrowser = new WebBrowser();
+                            MainPage_Loaded();
+                        }
+                        else
+                        {
+                            image1.Visibility = Visibility.Collapsed;
+                            LoginText.Visibility = Visibility.Collapsed;
+                            textBlock1.Visibility = Visibility.Visible;
+                            button1.Visibility = Visibility.Visible;
+                            SystemTray.SetProgressIndicator(this, indicator);
+                            // load friend list from App42
+                            GetFacebookFriendsFromSocial(ac.AccessToken.ToString());
+                        }
+                        
                         
                     }
                 }
@@ -243,8 +242,28 @@ namespace Knock
         // Open Gallery.
         private void ShowGallery(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new Uri(string.Format("/SharedFiles.xaml" +
+            NavigationService.Navigate(new Uri(String.Format("/SharedFiles.xaml" +
                                     "?Refresh=true&random={0}", Guid.NewGuid()), UriKind.Relative));
+        }
+
+
+        // create facebook login URI to authenticate.
+        private Uri GetFacebookLoginUrl(String appId, String extendedPermissions)
+        {
+            var parameters = new Dictionary<String, object>();
+            parameters["client_id"] = appId;
+            parameters["redirect_uri"] = "https://www.facebook.com/connect/login_success.html";
+            parameters["response_type"] = "token";
+            parameters["display"] = "touch";
+
+            // add the 'scope' only if we have extendedPermissions.
+            if (!String.IsNullOrEmpty(extendedPermissions))
+            {
+                // A comma-delimited list of permissions
+                parameters["scope"] = extendedPermissions;
+            }
+
+            return _fb.GetLoginUrl(parameters);
         }
     }
 }

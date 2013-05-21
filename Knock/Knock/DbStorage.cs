@@ -6,7 +6,7 @@ namespace Knock
 {
     public class DbStorage : DataContext
     {
-        public DbStorage(string connectionString)
+        public DbStorage(String connectionString)
             : base(connectionString)
         {
         }

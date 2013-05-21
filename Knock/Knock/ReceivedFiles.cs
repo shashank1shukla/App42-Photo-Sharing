@@ -19,6 +19,7 @@ namespace Knock
 {
     public class ReceivedFiles : App42Callback
     {
+       // get current farme in app 
         DependencyObject currentPage  = ((App)Application.Current).RootFrame.Content as PhoneApplicationPage;
         
         ImageList imageList;
@@ -27,6 +28,7 @@ namespace Knock
             imageList = _imageList;
         }
 
+        // callback when server return an Exception on storage query .
         void App42Callback.OnException(App42Exception exception)
         {
             if (exception.GetAppErrorCode().Equals(2601))
@@ -46,6 +48,7 @@ namespace Knock
            
         }
 
+        // callback for storage query return received files. 
         void App42Callback.OnSuccess(object response)
         {
             if (response is Storage) 
@@ -75,8 +78,10 @@ namespace Knock
             }
         }
 
+        //
         public void GetMyFiles() 
         {
+            // check app has valid and authenticate user.
             using (DbStorage fbdb = new DbStorage(MainPage.strConnectionString))
             {
                 IQueryable<Db> fbQuery = from db in fbdb.user select db;
@@ -84,7 +89,7 @@ namespace Knock
                 if (ac != null)
                 {
                     // finding received images from NOSQL of App42.
-                    Util.storageObj.FindDocumentByKeyValue(Util.storageDbName, Util.storageCollName, "userId", ac.FbId, this);
+                    Util.storageService.FindDocumentByKeyValue(Util.storageDbName, Util.storageCollName, "userId", ac.FbId, this);
 
                 }
 

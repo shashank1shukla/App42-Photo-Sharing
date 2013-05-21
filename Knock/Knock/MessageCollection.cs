@@ -12,6 +12,7 @@ using System.Collections.ObjectModel;
 
 namespace Knock
 {
+    // list of comments.
   public class MessageCollection : ObservableCollection<Message>
   {
 

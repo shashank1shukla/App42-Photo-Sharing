@@ -15,6 +15,7 @@ using System.Data.Linq.Mapping;
 
 namespace Knock
 {
+    // create table in local database.
     [Table]
     public class Db
     {

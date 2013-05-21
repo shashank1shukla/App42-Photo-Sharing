@@ -153,7 +153,7 @@ namespace Knock
         private void GetMessages(String file) 
         {
             // Get all comment on image.
-            Util.reviewService.GetCommentsByItem(fileName,this);
+            Util.reviewService.GetCommentsByItem(fileName, this);
         }
 
         // callback when comments will be receive or add.

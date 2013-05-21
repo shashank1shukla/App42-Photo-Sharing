@@ -28,47 +28,47 @@ namespace Knock
         ///  Build required services to your app. 
         ///  Get my facebook feed.
         /// </summary>
-        string _accessToken;
-        public static ServiceAPI serviceapi = new ServiceAPI("YOUR API KEY", "YOUR SECRET KEY");
-        public static UploadService uploadObj = serviceapi.BuildUploadService();
-        public static StorageService storageObj = serviceapi.BuildStorageService();
-        public static ReviewService reviewService = serviceapi.BuildReviewService();
-        public static SocialService socialService = serviceapi.BuildSocialService();
+        String _accessToken;
+        public static ServiceAPI serviceAPI = new ServiceAPI("YOUR API KEY", "YOUR SECRET KEY");
+        public static UploadService uploadService = serviceAPI.BuildUploadService();
+        public static StorageService storageService = serviceAPI.BuildStorageService();
+        public static ReviewService reviewService = serviceAPI.BuildReviewService();
+        public static SocialService socialService = serviceAPI.BuildSocialService();
         // storage db name
-        public const string storageDbName = "YOUR DB NAME";
+        public const String storageDbName = "Your db";
         // storage collection name.
-        public const string storageCollName = "YOUR COLLECTION";
-        public Util(string accessToken)  
+        public const String storageCollName = "Your Collection";
+        public Util(String accessToken)  
         {
             _accessToken = accessToken;  
         }  
 
         // My facebook feed.
-        public void myProfile()
+        public void MyProfile()
         {
             var fb = new FacebookClient(_accessToken);
             fb.GetCompleted +=
                 (o, ex) =>
                 {
 
-                    var feed = (IDictionary<string, object>)ex.GetResultData();
+                    var feed = (IDictionary<String, object>)ex.GetResultData();
                     var me = feed["picture"] as JsonObject;
                     var pic = me["data"] as JsonObject;
-                    string picture = pic["url"].ToString();
-                    string name = feed["name"].ToString();
-                    string id = feed["id"].ToString();
+                    String picture = pic["url"].ToString();
+                    String name = feed["name"].ToString();
+                    String id = feed["id"].ToString();
                     UpdateProfile(name, id, picture);
                     
                 };
 
-            var parameters = new Dictionary<string, object>();
+            var parameters = new Dictionary<String, object>();
             parameters["fields"] = "id,name,picture";
             fb.GetAsync("me", parameters);
         }
 
 
         // save my facebook feed to local db.
-        private void UpdateProfile(string Name, string FbId, string Picture)
+        private void UpdateProfile(String Name, String FbId, String Picture)
         {
             using (DbStorage fbdb = new DbStorage(MainPage.strConnectionString))
             {
@@ -76,6 +76,7 @@ namespace Knock
                 Db ac = fbQuery.FirstOrDefault();
                 if (ac != null)
                 {
+                    // save the current user info in local database.
                     ac.Name = Name;
                     ac.FbId = FbId;
                     ac.Picture = Picture;

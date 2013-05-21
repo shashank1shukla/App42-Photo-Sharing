@@ -49,8 +49,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="App42_WINDOWS_API_1.1, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
-    <Reference Include="Facebook">
-      <HintPath>D:\software\facebook\FacebookLoginExample\FacebookLoginExample\Bin\Debug\Facebook.dll</HintPath>
+    <Reference Include="Facebook, Version=6.0.10.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>D:\software\WP7\facebook-windows-phone-sample-master\src\packages\Facebook.6.0.16\lib\sl4-windowsphone71\Facebook.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Phone" />
     <Reference Include="Microsoft.Phone.Controls, Version=7.0.0.0, Culture=neutral, PublicKeyToken=24eec0d8c86cda1e, processorArchitecture=MSIL" />

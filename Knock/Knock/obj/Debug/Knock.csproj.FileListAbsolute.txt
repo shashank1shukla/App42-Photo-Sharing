@@ -34,3 +34,4 @@ C:\Users\Ideapad\documents\visual studio 2010\Projects\Knock\Knock\Bin\Debug\Kno
 C:\Users\Ideapad\documents\visual studio 2010\Projects\Knock\Knock\obj\Debug\Knock.g.resources
 C:\Users\Ideapad\documents\visual studio 2010\Projects\Knock\Knock\obj\Debug\Knock.dll
 C:\Users\Ideapad\documents\visual studio 2010\Projects\Knock\Knock\obj\Debug\Knock.pdb
+C:\Users\Ideapad\documents\visual studio 2010\Projects\Knock\Knock\Bin\Debug\Facebook.xml

@@ -19,7 +19,7 @@ namespace Knock
   }
 
   /// <summary>
-  /// An SMS message
+  /// Comments.
   /// </summary>
   public class Message
   {

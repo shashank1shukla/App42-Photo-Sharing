@@ -24,9 +24,9 @@ namespace Knock
     public partial class SharedFiles : PhoneApplicationPage, App42Callback
     {
         /// <summary>
-        ///  Use UploadFileForUser to share image with your friend of UploadService.
+        ///  Use UploadFileForUser API to share image with your friend of App42 UploadService.
        /// </summary>
-        static UploadService uploadObj = Util.uploadObj;
+        static UploadService uploadObj = Util.uploadService;
         ImageList imageList = new ImageList();
         MyList myList = new MyList();
         public ProgressIndicator indicator = new ProgressIndicator
@@ -71,6 +71,7 @@ namespace Knock
             });
         }
 
+        // call when storage query return shared files 
         void App42Callback.OnSuccess(object response)
         {
             
@@ -112,7 +113,7 @@ namespace Knock
                  if (ac != null)
                  {
                      // finding Shared images from NOSQL of App42.
-                     Util.storageObj.FindDocumentByKeyValue(Util.storageDbName, Util.storageCollName, "ownerId", ac.FbId, this);
+                     Util.storageService.FindDocumentByKeyValue(Util.storageDbName, Util.storageCollName, "ownerId", ac.FbId, this);
 
                  }
 

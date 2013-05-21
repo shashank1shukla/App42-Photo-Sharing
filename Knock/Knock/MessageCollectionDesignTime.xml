@@ -1,4 +1,4 @@
 ﻿<MessageCollection xmlns="clr-namespace:Knock">
-  <Message Text="Hi, How are you?" Side="You"/>
-  <Message Text="Pretty good thanks. How are things at your end?" Side="Me"/>
+  <Message Text="App42 Comments Working." Side="You"/>
+  <Message Text="Looks Goods?" Side="Me"/>
 </MessageCollection>

@@ -12,11 +12,13 @@ using System.Collections.ObjectModel;
 
 namespace Knock
 {
+    // list of Received images.
     public class ImageList : ObservableCollection<ImagesItems> 
     {
         public ImageList GetImageList() { return this; }
     }
 
+    // list of shared images.
     public class MyList : ObservableCollection<My>
     {
 
