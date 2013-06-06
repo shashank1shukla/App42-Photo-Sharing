@@ -13,7 +13,7 @@ This sample demonstrate the idea of one-to-one photo sharing between two people 
 1. <a href="https://apphq.shephertz.com/register" target="blank">Register</a> with App42 platform
 2. Create an app once you are on Quickstart page after registration.
 3. Download the project from this repo and open it in Microsoft Visual Studio.
-4. Open Util.cs in app and give the value of APIKey and SECRETKey in ServiceAPI.
+4. Open Util.cs in app and give the value of APIKey and SECRETKey in ServiceAPI constructor line number 32.
 5. Change storageDbName and storageCollName variable in Util.cs to your storage database and storage collection.
 5. You can also modify your appId variable in MainPage.cs to pass your own facebook app credentials.
 6. Build and Run 
@@ -22,7 +22,7 @@ This sample demonstrate the idea of one-to-one photo sharing between two people 
 
 __Initialize Services :__
 
-Initialize  ServiceAPI instance with your APIKey and SecretKey recieved in step #2 above. Once it is initialized, you can build target service object by calling buildXXXXXService on ServiceAPI instance. Below is the snippet for the same.
+Initialize  ServiceAPI instance with your APIKey and SECRETKey recieved in step #2 above. Once it is initialized, you can build target service object by calling buildXXXXXService on ServiceAPI instance. Below is the snippet for the same.
 
 
 ```
